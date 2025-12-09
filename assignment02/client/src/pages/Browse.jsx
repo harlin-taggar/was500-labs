@@ -20,6 +20,9 @@ export default function Browse() {
     anime.name.toLowerCase().includes(search.toLowerCase())
   );
 
+  // BACKEND URL without /api (needed for IMAGES)
+  const BASE = import.meta.env.VITE_API_BASE_URL.replace("/api", "");
+
   return (
     <div className="container">
       <h2 className="details-title">Browse Anime</h2>
@@ -32,14 +35,17 @@ export default function Browse() {
       />
 
       <div className="grid">
-        {filtered.map(anime => (
+        {filtered.map((anime) => (
           <Link key={anime._id} to={`/details/${anime._id}`}>
             <div className="grid-item">
+
+              {/* FIXED IMAGE URL */}
               <img
-                src={`http://localhost:5000${anime.poster}`}
+                src={`${BASE}${anime.poster}`}
                 className="poster-img"
                 alt={anime.name}
               />
+
               <h3>{anime.name}</h3>
               <p>{anime.year}</p>
             </div>
