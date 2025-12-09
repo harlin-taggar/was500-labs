@@ -10,7 +10,6 @@ import { fileURLToPath } from "url";
 
 import { connectDB } from "./config/db.js";
 
-
 import authRoutes from "./routes/auth.routes.js";
 import titleRoutes from "./routes/titles.routes.js";
 import reviewRoutes from "./routes/reviews.routes.js";
@@ -31,12 +30,22 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-//  Serve STATIC IMAGES from client/public/anime
-// This makes /anime/anime1.jpg accessible on localhost:5000/anime/anime1.jpg
+// Serve STATIC IMAGES from server/public/anime
 app.use("/anime", express.static(path.join(__dirname, "public/anime")));
 
 app.use(helmet());
-app.use(cors({ origin: "http://localhost:5173" }));
+
+//  WORKS FOR LOCAL + NETLIFY
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://assignment02-frontend.netlify.app"
+    ],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 app.use(morgan("dev"));
 
