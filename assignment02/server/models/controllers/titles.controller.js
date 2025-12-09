@@ -5,7 +5,6 @@ export const getAllTitles = async (req, res) => {
   try {
     const titles = await Title.find();
 
-    // 🔥 PERMANENT FIX: Normalize image paths
     const fixed = titles.map(t => ({
       ...t._doc,
       image: t.image.startsWith("/anime/")
@@ -25,7 +24,6 @@ export const getTitle = async (req, res) => {
     const title = await Title.findById(req.params.id);
     if (!title) return res.status(404).json({ message: "Title not found" });
 
-    // 🔥 Also normalize image here
     const fixed = {
       ...title._doc,
       image: title.image.startsWith("/anime/")
@@ -90,3 +88,4 @@ export const deleteTitle = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
